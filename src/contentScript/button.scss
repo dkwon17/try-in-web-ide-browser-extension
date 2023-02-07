@@ -1,0 +1,17 @@
+// Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "node_modules/bootstrap/scss/functions";
+
+// Include remainder of required Bootstrap stylesheets
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+// // Include optional Bootstrap components
+// @import 'node_modules/bootstrap/scss/button-group.scss';
+// @import 'node_modules/bootstrap/scss/buttons.scss';
+// @import 'node_modules/bootstrap/scss/dropdown.scss';
+
+.tiki {
+    @import 'node_modules/bootstrap/scss/button-group.scss';
+    @import 'node_modules/bootstrap/scss/buttons.scss';
+    @import 'node_modules/bootstrap/scss/dropdown.scss';
+}

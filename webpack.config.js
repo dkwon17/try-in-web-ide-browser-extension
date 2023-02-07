@@ -46,6 +46,71 @@ const config = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: 'asset',
       },
+      {
+        test: /\.s[ac]ss$/i,
+        exclude: ['/node_modules/'],
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // {
+          //   loader: require.resolve('postcss-loader'),
+          //   options: {
+          //     postcssOptions: {
+          //       plugins: {
+          //         "postcss-prefix-selector": {
+          //           prefix: 'my-prefix',
+          //           transform(prefix, selector, prefixedSelector, filePath, rule) {
+
+          //             if (selector.match(/^(html|body)/)) {
+          //               // return selector.replace(/^([^\s]*)/, `$1 ${prefix}`);
+          //               return selector;
+          //             }
+                      
+          //             if (filePath.match(/node_modules/)) {
+          //               return selector; // Do not prefix styles imported from node_modules
+          //             }
+                      
+          //             const annotation = rule.prev();
+          //             if (annotation?.type === 'comment' && annotation.text.trim() === 'no-prefix') {
+          //               return selector; // Do not prefix style rules that are preceded by: /* no-prefix */
+          //             }
+
+          //             // \.[_a-zA-Z]+[_a-zA-Z0-9-]*
+          //             return selector.replace(/\.([_a-zA-Z]+[_a-zA-Z0-9-]*)/g, `.${prefix}-$1`)
+
+          //             return `${prefix}-${selector}`;
+          //           },
+          //         },
+          //         autoprefixer: {
+          //           browsers: ['last 4 versions']
+          //         }
+          //       }
+          //     }
+          //   }
+          // },
+          // Compiles Sass to CSS
+          {
+            // Run postcss actions
+            loader: 'postcss-loader',
+            options: {
+              // `postcssOptions` is needed for postcss 8.x;
+              // if you use postcss 7.x skip the key
+              postcssOptions: {
+                // postcss plugins, can be exported to postcss.config.js
+                plugins: function () {
+                  return [
+                    require('autoprefixer')
+                  ];
+                }
+              }
+            }
+          },
+          "sass-loader",
+
+        ],
+      },
     ],
   },
   resolve: {

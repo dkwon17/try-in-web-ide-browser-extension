@@ -1,4 +1,8 @@
 import { GitServiceFactory } from '../gitServices/GitServiceFactory';
+import './button.scss';
+import * as bootstrap from 'bootstrap'
+
+bootstrap.dropdown
 
 /* Unconditionally add the CSS rules to the first stylesheet which is
  * available in the page. */
