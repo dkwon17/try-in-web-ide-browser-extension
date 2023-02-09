@@ -1,7 +1,7 @@
-import { GitServiceFactory } from '../gitServices/GitServiceFactory';
+import { ButtonInjectorFactory } from '../buttonInjectors/ButtonInjectorFactory';
 
 try {
-    GitServiceFactory.getGitService()?.injectButton();
+    ButtonInjectorFactory.getButtonInjector()?.injectButton();
 } catch(e) {
     const message = e instanceof Error ? e.message : e;
     console.log(`try-in-web-ide-browser-extension error: ${message}`);

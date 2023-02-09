@@ -1,10 +1,10 @@
 import { Endpoint, getEndpoints } from "../../preferences";
-import { GitService } from "../GitService";
+import { ButtonInjector } from "../ButtonInjector";
 import { getFactoryUrl, getHostName, getProjectURL } from "../util";
 import { createPopper } from "@popperjs/core";
 import "./github.css";
 
-export class GitHubService implements GitService {
+export class GitHubButtonInjector implements ButtonInjector {
     /**
      * @returns true if current page is a GitHub page to inject the button to
      */
@@ -75,7 +75,6 @@ export class GitHubService implements GitService {
         btnGroup.appendChild(dropdownBtn);
 
         const dropdownContent = document.createElement("ul");
-        dropdownContent.id = "def";
         dropdownContent.className = "gh-dropdown-menu";
 
         endpoints.forEach((e) => {
