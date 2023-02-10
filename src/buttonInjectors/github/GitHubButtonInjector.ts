@@ -5,6 +5,8 @@ import { createPopper } from "@popperjs/core";
 import "./github.css";
 
 export class GitHubButtonInjector implements ButtonInjector {
+    private static BUTTON_ID = "try-in-web-ide-btn";
+
     /**
      * @returns true if current page is a GitHub page to inject the button to
      */
@@ -14,6 +16,23 @@ export class GitHubButtonInjector implements ButtonInjector {
     }
 
     public async injectButton() {
+        await this._injectButton();
+
+        // GitHub uses Turbo to load the project repo's `Code`, `Issues`, `Pull requests`,
+        // `Actions`, etc. pages. In case the user clicks from a non-Code page to the Code
+        // page, try to inject button.
+        document.addEventListener("turbo:load", () => {
+            if (GitHubButtonInjector.matches()) {
+                this._injectButton();
+            }
+        });
+    }
+
+    private async _injectButton() {
+        if (document.getElementById(GitHubButtonInjector.BUTTON_ID)) {
+            return;
+        }
+
         const actionBar = window.document.querySelector(".file-navigation");
         const project = getProjectURL();
         const endpoints = await getEndpoints();
@@ -35,6 +54,7 @@ export class GitHubButtonInjector implements ButtonInjector {
         endpoint: Endpoint
     ) {
         const btnGroup = document.createElement("div");
+        btnGroup.id = GitHubButtonInjector.BUTTON_ID;
         btnGroup.className = "gh-btn-group ml-2";
         const btn = window.document.createElement("a");
         btn.href = endpoint.url + "/#" + projectUrl;
@@ -58,6 +78,7 @@ export class GitHubButtonInjector implements ButtonInjector {
     ) {
         const btnGroup = document.createElement("div");
         btnGroup.className = "gh-btn-group ml-2";
+        btnGroup.id = GitHubButtonInjector.BUTTON_ID;
 
         const btn = document.createElement("a");
         btn.className = "gh-btn btn-primary";
