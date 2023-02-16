@@ -19,6 +19,12 @@ const config = {
       'contentScript',
       'contentScript.ts'
     ),
+    serviceWorker: path.join(
+      __dirname,
+      'src',
+      'serviceWorker',
+      'serviceWorker.ts'
+    ),
   },
   output: {
     filename: '[name].bundle.js',
