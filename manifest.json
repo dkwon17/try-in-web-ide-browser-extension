@@ -8,7 +8,7 @@
   },
   "background": {
     "service_worker": "serviceWorker.bundle.js"
-  },
+  }, 
   "content_scripts": [
     {
       "js": [
