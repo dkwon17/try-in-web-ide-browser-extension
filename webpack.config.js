@@ -21,11 +21,11 @@ const config = {
       'contentScript',
       'contentScript.ts'
     ),
-    serviceWorker: path.join(
+    backgroundScript: path.join(
       __dirname,
       'src',
-      'serviceWorker',
-      'serviceWorker.ts'
+      'backgroundScript',
+      'backgroundScript.ts'
     ),
   },
   output: {

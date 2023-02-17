@@ -8,6 +8,7 @@ import { ButtonInjector } from "../ButtonInjector";
 import { getFactoryUrl, getHostName, getProjectURL } from "../util";
 import { createPopper } from "@popperjs/core";
 import "./github.css";
+import { OPEN_OPTIONS } from '../../../backgroundScript/backgroundScript';
 
 export class GitHubButtonInjector implements ButtonInjector {
     private static BUTTON_ID = "try-in-web-ide-btn";
@@ -141,7 +142,7 @@ export class GitHubButtonInjector implements ButtonInjector {
         a.className = "gh-dropdown-item";
         a.appendChild(document.createTextNode("Configure"));
         a.onclick = () => {
-            chrome.runtime.sendMessage({"action": "openOptionsPage"});
+            chrome.runtime.sendMessage({action: OPEN_OPTIONS});
         }
         li.appendChild(a);
         return li;
