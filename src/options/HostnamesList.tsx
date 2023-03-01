@@ -1,3 +1,8 @@
+/*-----------------------------------------------------------------------------------------------
+ *  Copyright (c) Red Hat, Inc. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE file in the project root for license information.
+ *-----------------------------------------------------------------------------------------------*/
+
 import {
     Split,
     SplitItem,
@@ -55,5 +60,5 @@ export const HostnamesList = (props: Props) => {
         );
     });
 
-    return <SimpleList>{listItems}</SimpleList>;
+    return <SimpleList data-testid="hostnames-list">{listItems}</SimpleList>;
 };

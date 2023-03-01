@@ -1,3 +1,8 @@
+/*-----------------------------------------------------------------------------------------------
+ *  Copyright (c) Red Hat, Inc. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE file in the project root for license information.
+ *-----------------------------------------------------------------------------------------------*/
+
 import {
     Dropdown,
     DropdownItem,
@@ -46,6 +51,7 @@ export const DropdownMenu = (props: Props) => {
 
     return (
         <Dropdown
+            title="Toggle dropdown"
             className="pf-u-float-right"
             position={DropdownPosition.right}
             onSelect={onSelect}
