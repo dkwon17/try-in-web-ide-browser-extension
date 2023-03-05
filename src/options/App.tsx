@@ -42,7 +42,7 @@ export const App = () => {
             const endpoints = await getEndpoints();
             setEndpoints(endpoints);
         };
-        fetchData().catch(console.error);
+        fetchData();
     }, []);
 
     const handleNewEndpointUrlChange = (newUrl: string, _event: React.FormEvent<HTMLInputElement>) => {
