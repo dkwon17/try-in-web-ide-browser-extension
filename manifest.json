@@ -20,6 +20,8 @@
       "run_at": "document_idle"
     }
   ],
+  "optional_permissions": ["scripting"],
+  "optional_host_permissions": ["https://*/*"],
   "permissions": [
     "storage"
   ],

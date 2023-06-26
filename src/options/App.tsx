@@ -69,6 +69,22 @@ export const App = () => {
     };
 
     const addNewEndpoint = async () => {
+
+        if (newEndpointUrl === "https://github-1234.com") {
+            alert('Alert!');
+            chrome.permissions.request({
+                permissions: ['scripting'],
+                origins: ['https://www.cp24.com/']
+              }, (granted) => {
+                // The callback argument will be true if the user granted the permissions.
+                if (granted) {
+                  alert('granted!')
+                } else {
+                  alert('not granted!')
+                }
+              });
+        }
+
         const sanitizedEndpoint = sanitizeEndpoint(newEndpointUrl);
         const newEndpoints = endpoints.concat({
             url: sanitizedEndpoint,

@@ -11,17 +11,18 @@ module.exports = (env) => {
     const config = {
         entry: {
             options: [path.join(__dirname, "src", "options", "options")],
+            popup: [path.join(__dirname, "src", "popup", "popup")],
             contentScript: path.join(
                 __dirname,
                 "src",
                 "contentScript",
-                "contentScript"
+                "contentScript.tsx"
             ),
             backgroundScript: path.join(
                 __dirname,
                 "src",
                 "backgroundScript",
-                "backgroundScript"
+                "backgroundScript.ts"
             ),
         },
         output: {

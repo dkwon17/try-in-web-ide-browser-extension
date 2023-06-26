@@ -17,6 +17,7 @@ module.exports = merge(common('development'), {
   },
   plugins: [
     copyOptionsHtmlToDist(),
+    copyPopupHtmlToDist(),
   ]
 });
 
@@ -25,4 +26,11 @@ function copyOptionsHtmlToDist() {
       template: path.join(__dirname, 'src', 'options', 'options.html'),
       filename: 'options.html',
     });
+}
+
+function copyPopupHtmlToDist() {
+  return new HtmlWebpackPlugin({
+    template: path.join(__dirname, 'src', 'popup', 'popup.html'),
+    filename: 'popup.html',
+  });
 }
