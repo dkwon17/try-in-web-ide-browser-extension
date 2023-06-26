@@ -21,6 +21,27 @@ import { Form, FormGroup } from "@patternfly/react-core/components/Form";
 import { TextInput } from "@patternfly/react-core/components/TextInput";
 import { ExclamationCircleIcon } from "@patternfly/react-icons/dist/js/icons/exclamation-circle-icon";
 import {
+    PageSection,
+    PageSectionVariants,
+    PageBreadcrumb,
+    Breadcrumb,
+    BreadcrumbItem,
+    Tabs,
+    Tab,
+    TabContent,
+    TabContentBody,
+    TabTitleText,
+    Title,
+    DescriptionList,
+    DescriptionListGroup,
+    DescriptionListTerm,
+    DescriptionListDescription,
+    Label,
+    LabelGroup,
+    Flex,
+    FlexItem,
+} from "@patternfly/react-core";
+import {
     Endpoint,
     getEndpoints,
     saveEndpoints,
@@ -31,6 +52,12 @@ import "./styles/App.css";
 export const App = () => {
     const [endpoints, setEndpoints] = useState<Endpoint[]>([]);
     const [newEndpointUrl, setNewEndpointUrl] = useState<string>("");
+    const [activeTabKey, setActiveTabKey] = useState(0);
+
+    // Toggle currently active tab
+    const handleTabClick = (event, tabIndex) => {
+        setActiveTabKey(tabIndex);
+    };
 
     type validate = "success" | "error" | "default";
     const [newEndpointStatus, setNewEndpointStatus] =
@@ -129,48 +156,145 @@ export const App = () => {
         </Split>
     );
 
+    const domainList = [];
+
     return (
         <Card>
-            <CardTitle>Dev Spaces endpoints</CardTitle>
-            <CardBody>
-                {list}
-                <Divider className="pf-u-mt-md pf-u-mb-md" />
-                <Split>
-                    <SplitItem className="form-text-input">
-                        <Form>
-                            <FormGroup
-                                validated={newEndpointStatus}
-                                helperTextInvalid={helperTextInvalid}
-                                helperTextInvalidIcon={
-                                    <ExclamationCircleIcon />
-                                }
-                            >
-                                <TextInput
-                                    type="text"
-                                    aria-label="new endpoint"
-                                    validated={newEndpointStatus}
-                                    value={newEndpointUrl}
-                                    placeholder="Add endpoint"
-                                    onChange={handleNewEndpointUrlChange}
-                                />
-                            </FormGroup>
-                        </Form>
-                    </SplitItem>
-                    <SplitItem className="form-fill" isFilled></SplitItem>
-                    <SplitItem>
-                        <Button
-                            variant="primary"
-                            onClick={addNewEndpoint}
-                            isDisabled={
-                                newEndpointUrl.length === 0 ||
-                                newEndpointStatus === "error"
-                            }
-                        >
-                            Add
-                        </Button>
-                    </SplitItem>
-                </Split>
-            </CardBody>
+            <PageSection
+                type="tabs"
+                variant={PageSectionVariants.light}
+                isWidthLimited
+            >
+                <Tabs
+                    activeKey={activeTabKey}
+                    onSelect={handleTabClick}
+                    usePageInsets
+                    id="open-tabs-example-tabs-list"
+                >
+                    <Tab
+                        eventKey={0}
+                        title={
+                            <TabTitleText>Dev Spaces endpoints</TabTitleText>
+                        }
+                        tabContentId={`tabContent${0}`}
+                    />
+                    <Tab
+                        eventKey={1}
+                        title={
+                            <TabTitleText>
+                                GitHub Enterprise domains
+                            </TabTitleText>
+                        }
+                        tabContentId={`tabContent${1}`}
+                    />
+                </Tabs>
+            </PageSection>
+            <PageSection isWidthLimited variant={PageSectionVariants.light}>
+                <TabContent
+                    key={0}
+                    eventKey={0}
+                    id={`tabContent${0}`}
+                    activeKey={activeTabKey}
+                    hidden={0 !== activeTabKey}
+                >
+                    <TabContentBody>
+                        {list}
+                        <Divider className="pf-u-mt-md pf-u-mb-md" />
+                        <Split>
+                            <SplitItem className="form-text-input">
+                                <Form>
+                                    <FormGroup
+                                        validated={newEndpointStatus}
+                                        helperTextInvalid={helperTextInvalid}
+                                        helperTextInvalidIcon={
+                                            <ExclamationCircleIcon />
+                                        }
+                                    >
+                                        <TextInput
+                                            type="text"
+                                            aria-label="new endpoint"
+                                            validated={newEndpointStatus}
+                                            value={newEndpointUrl}
+                                            placeholder="Add endpoint"
+                                            onChange={
+                                                handleNewEndpointUrlChange
+                                            }
+                                        />
+                                    </FormGroup>
+                                </Form>
+                            </SplitItem>
+                            <SplitItem
+                                className="form-fill"
+                                isFilled
+                            ></SplitItem>
+                            <SplitItem>
+                                <Button
+                                    variant="primary"
+                                    onClick={addNewEndpoint}
+                                    isDisabled={
+                                        newEndpointUrl.length === 0 ||
+                                        newEndpointStatus === "error"
+                                    }
+                                >
+                                    Add
+                                </Button>
+                            </SplitItem>
+                        </Split>
+                    </TabContentBody>
+                </TabContent>
+                <TabContent
+                    key={1}
+                    eventKey={1}
+                    id={`tabContent${1}`}
+                    activeKey={activeTabKey}
+                    hidden={1 !== activeTabKey}
+                >
+                    <TabContentBody>
+                    {list}
+                        <Divider className="pf-u-mt-md pf-u-mb-md" />
+                        <Split>
+                            <SplitItem className="form-text-input">
+                                <Form>
+                                    <FormGroup
+                                        validated={newEndpointStatus}
+                                        helperTextInvalid={helperTextInvalid}
+                                        helperTextInvalidIcon={
+                                            <ExclamationCircleIcon />
+                                        }
+                                    >
+                                        <TextInput
+                                            type="text"
+                                            aria-label="new endpoint"
+                                            validated={newEndpointStatus}
+                                            value={newEndpointUrl}
+                                            placeholder="Add endpoint"
+                                            onChange={
+                                                handleNewEndpointUrlChange
+                                            }
+                                        />
+                                    </FormGroup>
+                                </Form>
+                            </SplitItem>
+                            <SplitItem
+                                className="form-fill"
+                                isFilled
+                            ></SplitItem>
+                            <SplitItem>
+                                <Button
+                                    variant="primary"
+                                    onClick={addNewEndpoint}
+                                    isDisabled={
+                                        newEndpointUrl.length === 0 ||
+                                        newEndpointStatus === "error"
+                                    }
+                                >
+                                    Add
+                                </Button>
+                            </SplitItem>
+                        </Split>
+                    </TabContentBody>
+                </TabContent>
+            </PageSection>
         </Card>
     );
 };

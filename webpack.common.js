@@ -28,6 +28,7 @@ module.exports = (env) => {
             filename: "[name].bundle.js",
             clean: true,
             path: path.resolve(__dirname, ...TARGET_FOLDER),
+            publicPath: "/",
         },
         plugins: [copyManifestToDist(isProduction), copyIconsToDist()],
         module: {
