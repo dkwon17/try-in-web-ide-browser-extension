@@ -9,52 +9,17 @@ import "@patternfly/react-core/dist/styles/base.css";
 import "@patternfly/patternfly/utilities/Spacing/spacing.css";
 import "@patternfly/patternfly/utilities/Float/float.css";
 
-import { Button } from "@patternfly/react-core/components/Button";
-import {
-    Card,
-    CardBody,
-    CardTitle,
-} from "@patternfly/react-core/components/Card";
-import { Divider } from "@patternfly/react-core/components/Divider";
-import { Split, SplitItem } from "@patternfly/react-core/layouts/Split";
-import { Form, FormGroup } from "@patternfly/react-core/components/Form";
-import { TextInput } from "@patternfly/react-core/components/TextInput";
-import { ExclamationCircleIcon } from "@patternfly/react-icons/dist/js/icons/exclamation-circle-icon";
-import {
-    PageSection,
-    PageSectionVariants,
-    PageBreadcrumb,
-    Breadcrumb,
-    BreadcrumbItem,
-    Tabs,
-    Tab,
-    TabContent,
-    TabContentBody,
-    TabTitleText,
-    Title,
-    DescriptionList,
-    DescriptionListGroup,
-    DescriptionListTerm,
-    DescriptionListDescription,
-    Label,
-    LabelGroup,
-    Flex,
-    FlexItem,
-} from "@patternfly/react-core";
 import {
     Endpoint,
     getEndpoints,
     saveEndpoints,
 } from "../preferences/preferences";
 import { EndpointsList } from "./EndpointsList";
+import { sanitizeUrl } from './util';
+import { FormUI } from './FormUI';
 
 export const DevSpacesEndpoints = () => {
     const [endpoints, setEndpoints] = useState<Endpoint[]>([]);
-    const [newEndpointUrl, setNewEndpointUrl] = useState<string>("");
-
-    type validate = "success" | "error" | "default";
-    const [newEndpointStatus, setNewEndpointStatus] =
-        useState<validate>("default");
 
     useEffect(() => {
         updateEndpoints().catch(console.error);
@@ -65,48 +30,20 @@ export const DevSpacesEndpoints = () => {
         setEndpoints(endpoints);
     };
 
-    const handleNewEndpointUrlChange = (
-        newUrl: string,
-        _event: React.FormEvent<HTMLInputElement>
-    ) => {
-        setNewEndpointUrl(newUrl);
-        if (newUrl === "") {
-            setNewEndpointStatus("default");
-        } else if (isUrl(newUrl)) {
-            setNewEndpointStatus("success");
-        } else {
-            setNewEndpointStatus("error");
-        }
-    };
-
-    const isUrl = (str: string) => {
-        try {
-            new URL(str);
-        } catch {
-            return false;
-        }
-        return true;
-    };
-
-    const addNewEndpoint = async () => {
-        const sanitizedEndpoint = sanitizeEndpoint(newEndpointUrl);
+    const addNewEndpoint = async (newEndpointUrl: string) => {
+        const sanitizedEndpoint = sanitizeUrl(newEndpointUrl);
         const newEndpoints = endpoints.concat({
             url: sanitizedEndpoint,
             active: false,
             readonly: false,
         });
-        await saveEndpoints(newEndpoints);
-        await updateEndpoints();
-        setNewEndpointUrl("");
-        setNewEndpointStatus("default");
-    };
-
-    const sanitizeEndpoint = (str: string) => {
-        let res = str;
-        while (res.charAt(res.length - 1) === "/") {
-            res = res.substring(0, res.length - 1);
+        try {
+            await saveEndpoints(newEndpoints);
+            await updateEndpoints();
+        } catch (err) {
+            return false;
         }
-        return res;
+        return true;
     };
 
     const setDefault = async (endpoint: Endpoint) => {
@@ -132,60 +69,15 @@ export const DevSpacesEndpoints = () => {
         />
     );
 
-    const helperTextInvalid = (
-        <Split className="pf-u-mt-xs">
-            <SplitItem>
-                <ExclamationCircleIcon
-                    color="var(--pf-global--danger-color--100)"
-                    className="pf-u-mr-xs"
-                />
-            </SplitItem>
-            <SplitItem>
-                <div className="pf-c-form__helper-text pf-m-error">
-                    Provide the URL of your Dev Spaces installation, e.g.,
-                    https://devspaces.mycluster.mycorp.com
-                </div>
-            </SplitItem>
-        </Split>
-    );
-
     return (
-        <Fragment>
+        <FormUI onAdd={addNewEndpoint}
+        textInputInvalidText={["Provide the URL of your Dev Spaces installation, e.g.,",
+        <br/>,
+        "https://devspaces.mycluster.mycorp.com"]}
+        textInputAriaLabel="new endpoint"
+        textInputPlaceholder="Add endpoint"
+        >
             {list}
-            <Divider className="pf-u-mt-md pf-u-mb-md" />
-            <Split>
-                <SplitItem className="form-text-input">
-                    <Form>
-                        <FormGroup
-                            validated={newEndpointStatus}
-                            helperTextInvalid={helperTextInvalid}
-                            helperTextInvalidIcon={<ExclamationCircleIcon />}
-                        >
-                            <TextInput
-                                type="text"
-                                aria-label="new endpoint"
-                                validated={newEndpointStatus}
-                                value={newEndpointUrl}
-                                placeholder="Add endpoint"
-                                onChange={handleNewEndpointUrlChange}
-                            />
-                        </FormGroup>
-                    </Form>
-                </SplitItem>
-                <SplitItem className="form-fill" isFilled></SplitItem>
-                <SplitItem>
-                    <Button
-                        variant="primary"
-                        onClick={addNewEndpoint}
-                        isDisabled={
-                            newEndpointUrl.length === 0 ||
-                            newEndpointStatus === "error"
-                        }
-                    >
-                        Add
-                    </Button>
-                </SplitItem>
-            </Split>
-        </Fragment>
+        </FormUI>
     );
 };
