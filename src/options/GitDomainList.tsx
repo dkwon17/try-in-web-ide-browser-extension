@@ -9,11 +9,13 @@ import {
     SimpleList,
     SimpleListItem,
 } from "@patternfly/react-core/components/SimpleList";
+import { TrashIcon } from "@patternfly/react-icons/dist/js/icons/trash-icon";
 import { Truncate } from "@patternfly/react-core/components/Truncate";
 
 
 interface Props {
     domains: string[];
+    onClickDelete: (domain: string) => void;
 }
 
 export const GitDomainList = (props: Props) => {
@@ -27,6 +29,10 @@ export const GitDomainList = (props: Props) => {
                 <Split>
                     <SplitItem>
                         <Truncate content={domain} />
+                    </SplitItem>
+                    <SplitItem isFilled />
+                    <SplitItem>
+                        <TrashIcon onClick={() => props.onClickDelete(domain)}/>
                     </SplitItem>
                 </Split>
             </SimpleListItem>

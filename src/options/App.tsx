@@ -48,115 +48,16 @@ import {
 } from "../preferences/preferences";
 import { EndpointsList } from "./EndpointsList";
 import "./styles/App.css";
+import { DevSpacesEndpoints } from './DevSpacesEndpoints';
+import { GitDomains } from './GitDomains';
 
 export const App = () => {
-    const [endpoints, setEndpoints] = useState<Endpoint[]>([]);
-    const [newEndpointUrl, setNewEndpointUrl] = useState<string>("");
     const [activeTabKey, setActiveTabKey] = useState(0);
 
     // Toggle currently active tab
     const handleTabClick = (event, tabIndex) => {
         setActiveTabKey(tabIndex);
     };
-
-    type validate = "success" | "error" | "default";
-    const [newEndpointStatus, setNewEndpointStatus] =
-        useState<validate>("default");
-
-    useEffect(() => {
-        updateEndpoints().catch(console.error);
-    }, []);
-
-    const updateEndpoints = async () => {
-        const endpoints = await getEndpoints();
-        setEndpoints(endpoints);
-    };
-
-    const handleNewEndpointUrlChange = (
-        newUrl: string,
-        _event: React.FormEvent<HTMLInputElement>
-    ) => {
-        setNewEndpointUrl(newUrl);
-        if (newUrl === "") {
-            setNewEndpointStatus("default");
-        } else if (isUrl(newUrl)) {
-            setNewEndpointStatus("success");
-        } else {
-            setNewEndpointStatus("error");
-        }
-    };
-
-    const isUrl = (str: string) => {
-        try {
-            new URL(str);
-        } catch {
-            return false;
-        }
-        return true;
-    };
-
-    const addNewEndpoint = async () => {
-        const sanitizedEndpoint = sanitizeEndpoint(newEndpointUrl);
-        const newEndpoints = endpoints.concat({
-            url: sanitizedEndpoint,
-            active: false,
-            readonly: false,
-        });
-        await saveEndpoints(newEndpoints);
-        await updateEndpoints();
-        setNewEndpointUrl("");
-        setNewEndpointStatus("default");
-    };
-
-    const sanitizeEndpoint = (str: string) => {
-        let res = str;
-        while (res.charAt(res.length - 1) === "/") {
-            res = res.substring(0, res.length - 1);
-        }
-        return res;
-    };
-
-    const setDefault = async (endpoint: Endpoint) => {
-        const newEndpoints = [...endpoints];
-        newEndpoints.forEach((e) => {
-            e.active = e == endpoint;
-        });
-        await saveEndpoints(newEndpoints);
-        await updateEndpoints();
-    };
-
-    const deleteEndpoint = async (endpoint: Endpoint) => {
-        const newEndpoints = endpoints.filter((e) => e != endpoint);
-        await saveEndpoints(newEndpoints);
-        await updateEndpoints();
-    };
-
-    const list = endpoints.length && (
-        <EndpointsList
-            endpoints={endpoints}
-            onClickSetDefault={setDefault}
-            onClickDelete={deleteEndpoint}
-        />
-    );
-
-    const helperTextInvalid = (
-        <Split className="pf-u-mt-xs">
-            <SplitItem>
-                <ExclamationCircleIcon
-                    color="var(--pf-global--danger-color--100)"
-                    className="pf-u-mr-xs"
-                />
-            </SplitItem>
-            <SplitItem>
-                <div className="pf-c-form__helper-text pf-m-error">
-                    Provide the URL of your Dev Spaces installation, e.g.,
-                    https://devspaces.mycluster.mycorp.com
-                </div>
-            </SplitItem>
-        </Split>
-    );
-
-    const domainList = [];
 
     return (
         <Card>
@@ -198,48 +99,7 @@ export const App = () => {
                     hidden={0 !== activeTabKey}
                 >
                     <TabContentBody>
-                        {list}
-                        <Divider className="pf-u-mt-md pf-u-mb-md" />
-                        <Split>
-                            <SplitItem className="form-text-input">
-                                <Form>
-                                    <FormGroup
-                                        validated={newEndpointStatus}
-                                        helperTextInvalid={helperTextInvalid}
-                                        helperTextInvalidIcon={
-                                            <ExclamationCircleIcon />
-                                        }
-                                    >
-                                        <TextInput
-                                            type="text"
-                                            aria-label="new endpoint"
-                                            validated={newEndpointStatus}
-                                            value={newEndpointUrl}
-                                            placeholder="Add endpoint"
-                                            onChange={
-                                                handleNewEndpointUrlChange
-                                            }
-                                        />
-                                    </FormGroup>
-                                </Form>
-                            </SplitItem>
-                            <SplitItem
-                                className="form-fill"
-                                isFilled
-                            ></SplitItem>
-                            <SplitItem>
-                                <Button
-                                    variant="primary"
-                                    onClick={addNewEndpoint}
-                                    isDisabled={
-                                        newEndpointUrl.length === 0 ||
-                                        newEndpointStatus === "error"
-                                    }
-                                >
-                                    Add
-                                </Button>
-                            </SplitItem>
-                        </Split>
+                        <DevSpacesEndpoints/>
                     </TabContentBody>
                 </TabContent>
                 <TabContent
@@ -250,48 +110,7 @@ export const App = () => {
                     hidden={1 !== activeTabKey}
                 >
                     <TabContentBody>
-                    {list}
-                        <Divider className="pf-u-mt-md pf-u-mb-md" />
-                        <Split>
-                            <SplitItem className="form-text-input">
-                                <Form>
-                                    <FormGroup
-                                        validated={newEndpointStatus}
-                                        helperTextInvalid={helperTextInvalid}
-                                        helperTextInvalidIcon={
-                                            <ExclamationCircleIcon />
-                                        }
-                                    >
-                                        <TextInput
-                                            type="text"
-                                            aria-label="new endpoint"
-                                            validated={newEndpointStatus}
-                                            value={newEndpointUrl}
-                                            placeholder="Add endpoint"
-                                            onChange={
-                                                handleNewEndpointUrlChange
-                                            }
-                                        />
-                                    </FormGroup>
-                                </Form>
-                            </SplitItem>
-                            <SplitItem
-                                className="form-fill"
-                                isFilled
-                            ></SplitItem>
-                            <SplitItem>
-                                <Button
-                                    variant="primary"
-                                    onClick={addNewEndpoint}
-                                    isDisabled={
-                                        newEndpointUrl.length === 0 ||
-                                        newEndpointStatus === "error"
-                                    }
-                                >
-                                    Add
-                                </Button>
-                            </SplitItem>
-                        </Split>
+                      <GitDomains/>
                     </TabContentBody>
                 </TabContent>
             </PageSection>

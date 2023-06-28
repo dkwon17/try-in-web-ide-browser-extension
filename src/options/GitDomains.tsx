@@ -20,62 +20,41 @@ import { Split, SplitItem } from "@patternfly/react-core/layouts/Split";
 import { Form, FormGroup } from "@patternfly/react-core/components/Form";
 import { TextInput } from "@patternfly/react-core/components/TextInput";
 import { ExclamationCircleIcon } from "@patternfly/react-icons/dist/js/icons/exclamation-circle-icon";
-import {
-    PageSection,
-    PageSectionVariants,
-    PageBreadcrumb,
-    Breadcrumb,
-    BreadcrumbItem,
-    Tabs,
-    Tab,
-    TabContent,
-    TabContentBody,
-    TabTitleText,
-    Title,
-    DescriptionList,
-    DescriptionListGroup,
-    DescriptionListTerm,
-    DescriptionListDescription,
-    Label,
-    LabelGroup,
-    Flex,
-    FlexItem,
-} from "@patternfly/react-core";
-import {
-    Endpoint,
-    getEndpoints,
-    saveEndpoints,
-} from "../preferences/preferences";
-import { EndpointsList } from "./EndpointsList";
 
-export const DevSpacesEndpoints = () => {
-    const [endpoints, setEndpoints] = useState<Endpoint[]>([]);
-    const [newEndpointUrl, setNewEndpointUrl] = useState<string>("");
+import {
+    getGitDomains,
+    saveGitDomains,
+} from "../preferences/preferences";
+import { GitDomainList } from './GitDomainList';
+
+export const GitDomains = () => {
+    const [domains, setDomains] = useState<string[]>([]);
+    const [newDomain, setNewDomain] = useState<string>("");
 
     type validate = "success" | "error" | "default";
-    const [newEndpointStatus, setNewEndpointStatus] =
+    const [newDomainStatus, setNewDomainStatus] =
         useState<validate>("default");
 
     useEffect(() => {
-        updateEndpoints().catch(console.error);
+        updateDomains().catch(console.error);
     }, []);
 
-    const updateEndpoints = async () => {
-        const endpoints = await getEndpoints();
-        setEndpoints(endpoints);
+    const updateDomains = async () => {
+        const domains = await getGitDomains();
+        setDomains(domains);
     };
 
     const handleNewEndpointUrlChange = (
         newUrl: string,
         _event: React.FormEvent<HTMLInputElement>
     ) => {
-        setNewEndpointUrl(newUrl);
+        setNewDomain(newUrl);
         if (newUrl === "") {
-            setNewEndpointStatus("default");
+            setNewDomainStatus("default");
         } else if (isUrl(newUrl)) {
-            setNewEndpointStatus("success");
+            setNewDomainStatus("success");
         } else {
-            setNewEndpointStatus("error");
+            setNewDomainStatus("error");
         }
     };
 
@@ -88,20 +67,26 @@ export const DevSpacesEndpoints = () => {
         return true;
     };
 
-    const addNewEndpoint = async () => {
-        const sanitizedEndpoint = sanitizeEndpoint(newEndpointUrl);
-        const newEndpoints = endpoints.concat({
-            url: sanitizedEndpoint,
-            active: false,
-            readonly: false,
-        });
-        await saveEndpoints(newEndpoints);
-        await updateEndpoints();
-        setNewEndpointUrl("");
-        setNewEndpointStatus("default");
+    const addNewDomain = async () => {
+        const sanitizedDomain = sanitizeDomain(newDomain);
+        const granted = await promptPermissions(sanitizedDomain);
+
+        if (!granted) {
+            setNewDomain("");
+            setNewDomainStatus("default");
+            return;
+        }
+
+        const newDomains = [...domains, sanitizedDomain];
+        await saveGitDomains(newDomains);
+        await updateDomains();
+        setNewDomain("");
+        setNewDomainStatus("default");
     };
 
-    const sanitizeEndpoint = (str: string) => {
+
+
+    const sanitizeDomain = (str: string) => {
         let res = str;
         while (res.charAt(res.length - 1) === "/") {
             res = res.substring(0, res.length - 1);
@@ -109,26 +94,40 @@ export const DevSpacesEndpoints = () => {
         return res;
     };
 
-    const setDefault = async (endpoint: Endpoint) => {
-        const newEndpoints = [...endpoints];
-        newEndpoints.forEach((e) => {
-            e.active = e == endpoint;
+    const deleteDomain = async (domain: string) => {
+        const removed = await removePermissions(domain);
+        console.log(`removed: ${removed} for domain: ${domain}`)
+        if (!removed) {
+            return;
+        }
+
+        const newDomains = domains.filter((d) => d != domain);
+
+        await saveGitDomains(newDomains);
+        await updateDomains();
+    };
+
+    const promptPermissions = (domain: string) => {
+        return chrome.permissions.request({
+            permissions: ['scripting'],
+            origins: [ getOriginPattern(domain) ]
         });
-        await saveEndpoints(newEndpoints);
-        await updateEndpoints();
-    };
+    }
 
-    const deleteEndpoint = async (endpoint: Endpoint) => {
-        const newEndpoints = endpoints.filter((e) => e != endpoint);
-        await saveEndpoints(newEndpoints);
-        await updateEndpoints();
-    };
+    const removePermissions = (domain: string) => {
+        return chrome.permissions.remove({
+            origins: [ getOriginPattern(domain) ]
+        });
+    }
 
-    const list = endpoints.length && (
-        <EndpointsList
-            endpoints={endpoints}
-            onClickSetDefault={setDefault}
-            onClickDelete={deleteEndpoint}
+    const getOriginPattern = (domain: string) => {
+        return domain + "/*";
+    }
+
+    const list = domains.length && (
+        <GitDomainList
+            domains={domains}
+            onClickDelete={deleteDomain}
         />
     );
 
@@ -157,16 +156,16 @@ export const DevSpacesEndpoints = () => {
                 <SplitItem className="form-text-input">
                     <Form>
                         <FormGroup
-                            validated={newEndpointStatus}
+                            validated={newDomainStatus}
                             helperTextInvalid={helperTextInvalid}
                             helperTextInvalidIcon={<ExclamationCircleIcon />}
                         >
                             <TextInput
                                 type="text"
                                 aria-label="new endpoint"
-                                validated={newEndpointStatus}
-                                value={newEndpointUrl}
-                                placeholder="Add endpoint"
+                                validated={newDomainStatus}
+                                value={newDomain}
+                                placeholder="Add GitHub Enterprise domain"
                                 onChange={handleNewEndpointUrlChange}
                             />
                         </FormGroup>
@@ -176,10 +175,10 @@ export const DevSpacesEndpoints = () => {
                 <SplitItem>
                     <Button
                         variant="primary"
-                        onClick={addNewEndpoint}
+                        onClick={addNewDomain}
                         isDisabled={
-                            newEndpointUrl.length === 0 ||
-                            newEndpointStatus === "error"
+                            newDomain.length === 0 ||
+                            newDomainStatus === "error"
                         }
                     >
                         Add

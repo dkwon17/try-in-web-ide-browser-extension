@@ -10,18 +10,7 @@
   "optional_host_permissions": ["https://*/*"],
   "background": {
     "service_worker": "backgroundScript.bundle.js"
-  }, 
-  "content_scripts": [
-    {
-      "js": [
-        "contentScript.bundle.js"
-      ],
-      "matches": [
-        "https://github.com/*"
-      ],
-      "run_at": "document_idle"
-    }
-  ],
+  },
   "permissions": [
     "storage"
   ],
