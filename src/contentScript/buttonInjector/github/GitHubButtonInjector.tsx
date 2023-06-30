@@ -12,6 +12,7 @@ import {
 import { ButtonInjector } from "../ButtonInjector";
 import { getProjectURL } from "../util";
 import { Button } from "./Button";
+import { inspect } from 'util' // or directly
 
 export class GitHubButtonInjector implements ButtonInjector {
     private static BUTTON_ID = "try-in-web-ide-btn";
@@ -45,30 +46,22 @@ export class GitHubButtonInjector implements ButtonInjector {
     }
 
     public async inject() {
-        console.log('Start Inject!')
-        await this._inject();
+        console.log('Start inject')
+        const currBtn = document.getElementById(GitHubButtonInjector.BUTTON_ID);
+        if (currBtn) {
+            const cache = [];
+            const currBtnStr = JSON.stringify(currBtn, (key, value) => {
+                if (typeof value === 'object' && value !== null) {
+                    // Duplicate reference found, discard key
+                    if (cache.includes(value)) return;
 
+                    // Store value in our collection
+                    cache.push(value);
+                }
+                return value;
+            });
 
-        // GitHub uses Turbo to load the project repo's `Code`, `Issues`, `Pull requests`,
-        // `Actions`, etc. pages. In case the user clicks from a non-Code page to the Code
-        // page, try to inject button.
-        // document.addEventListener("turbo:load", () => {
-        //     if (GitHubButtonInjector.matches()) {
-        //         console.log("listner inject")
-        //         this._inject();
-        //     } else if (this.root) {
-        //         console.log("listner unmount")
-        //         this.root.unmount();
-        //         this.root = undefined;
-        //     }
-        // });
-
-        console.log('Done Inject!')
-    }
-
-    private async _inject() {
-        if (document.getElementById(GitHubButtonInjector.BUTTON_ID)) {
-            console.log('quick return')
+            console.log(currBtnStr)
             return;
         }
 
@@ -78,10 +71,8 @@ export class GitHubButtonInjector implements ButtonInjector {
         rootElement.id = GitHubButtonInjector.BUTTON_ID;
         this.root = ReactDOM.createRoot(rootElement);
         this.root.render(<Button endpoints={endpoints} projectURL={projectURL} />);
-        // await new Promise(res => {
-        //     setTimeout(res, 4000)
-        // })
         ghElement.appendChild(rootElement);
+        console.log('End inject')
     }
 
     private async prepare(): Promise<{

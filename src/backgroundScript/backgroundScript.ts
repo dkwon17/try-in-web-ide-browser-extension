@@ -15,34 +15,42 @@ chrome.runtime.onMessage.addListener((message) => {
     }
 });
 
-const delayFunc = (delay, count) => {
-    return new Promise(res => setTimeout(() => {
-        console.log('Timeout done!! ' + count)
-        res(true)
-    }, delay))
-}
-
-let promiseChain: Promise<any> = Promise.resolve();
-
-let count = 0
+let prev: Promise<any> = Promise.resolve();
 
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+    console.log('onUpdated')
     if (!tab.url) {
         return;
     }
-
     if (changeInfo.status === 'complete') {
-        console.log('Execute order 66.')
-        count += 1
-        // const delay = delayFunc(5000, count)
-
-        promiseChain = promiseChain.then(() => {
-            // return delayFunc(3000, count)
-            console.log('try!')
+        console.log('update prev')
+        prev = prev.then(() => {
             return chrome.scripting.executeScript({
-                target: { tabId: tab.id },
+                target: { tabId },
                 files: ["contentScript.bundle.js"]
-            });
+            })
         })
+        // .then((result) => {
+        //     // The delay time is needed in the case where
+        //     // executeContentScript is executed multiple times in a short
+        //     // period of time.
+            
+        //     // Delay time ensures executions of contentScript.bundle.js
+        //     // stay separate.
+            
+        //     // The contentScript.bundle.js script runs an async function,
+        //     // and chrome.scripting.executeScript can resolve before the async
+        //     // function resolves.
+        //     return delay(5000)
+        // });
     }
 });
+
+const delay = (ms) => {
+    return new Promise<void>((res) => {
+        setTimeout(() => {
+            console.log('Delay done!')
+            res()
+        }, ms);
+    })
+}
