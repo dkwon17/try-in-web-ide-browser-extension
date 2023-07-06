@@ -12,7 +12,6 @@ import {
 import { ButtonInjector } from "../ButtonInjector";
 import { getProjectURL } from "../util";
 import { Button } from "./Button";
-import { inspect } from 'util' // or directly
 
 export class GitHubButtonInjector implements ButtonInjector {
     private static BUTTON_ID = "try-in-web-ide-btn";
@@ -46,22 +45,9 @@ export class GitHubButtonInjector implements ButtonInjector {
     }
 
     public async inject() {
-        console.log('Start inject')
+        console.log('Start inject!!!!')
         const currBtn = document.getElementById(GitHubButtonInjector.BUTTON_ID);
         if (currBtn) {
-            const cache = [];
-            const currBtnStr = JSON.stringify(currBtn, (key, value) => {
-                if (typeof value === 'object' && value !== null) {
-                    // Duplicate reference found, discard key
-                    if (cache.includes(value)) return;
-
-                    // Store value in our collection
-                    cache.push(value);
-                }
-                return value;
-            });
-
-            console.log(currBtnStr)
             return;
         }
 
@@ -72,7 +58,7 @@ export class GitHubButtonInjector implements ButtonInjector {
         this.root = ReactDOM.createRoot(rootElement);
         this.root.render(<Button endpoints={endpoints} projectURL={projectURL} />);
         ghElement.appendChild(rootElement);
-        console.log('End inject')
+        console.log('End inject!!!!')
     }
 
     private async prepare(): Promise<{

@@ -77,7 +77,7 @@ export const DevSpacesEndpoints = () => {
         textInputAriaLabel="new endpoint"
         textInputPlaceholder="Add endpoint"
         >
-            {list}
+            {list || "No endpoints added yet"}
         </FormUI>
     );
 };

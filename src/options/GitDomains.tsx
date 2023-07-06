@@ -21,12 +21,48 @@ export const GitDomains = () => {
     const [domains, setDomains] = useState<string[]>([]);
 
     useEffect(() => {
-        updateDomains().catch(console.error);
+        alert('mount!')
+        console.log('MOUNT!')
+        updateDomains()
+        .then(checkPermissionsOnMount)
+        .catch(console.error);
     }, []);
+
+    const checkPermissionsOnMount = async (domains) => {
+        const newDomains = []
+
+        await Promise.all(domains.map(async (domain) => {
+            console.log('A')
+            let granted = await chrome.permissions.contains({
+                permissions: ['scripting'],
+                origins: [ getOriginPattern(domain) ]
+            })
+            console.log('B')
+            if (!granted) {
+                console.log('C')
+                granted = await promptPermissions(domain);
+            }
+            console.log('D')
+            if (granted) {
+                console.log('E')
+                newDomains.push(domain);
+            }
+        }))
+
+        console.log(`domains: ${domains}`)
+        console.log(`newDomains: ${newDomains}`)
+
+        if (newDomains.length !== domains.length) {
+            await saveGitDomains(newDomains);
+            await updateDomains();
+        }
+    }
 
     const updateDomains = async () => {
         const domains = await getGitDomains();
+        console.log(`here are the domains that were retrieved: ${domains}`)
         setDomains(domains);
+        return domains;
     };
 
     const addNewDomain = async (newDomain: string) => {
@@ -85,8 +121,8 @@ export const GitDomains = () => {
         textInputInvalidText={["Provide the URL of your GitHub Enterprise instance, e.g.,", <br/> ,"https://github.my-company.com"]}
         textInputAriaLabel="add github enterprise domain"
         textInputPlaceholder="Add GitHub Enterprise domain"
-        >
-            {list}
+        > 
+            {list || "No GitHub Enterprise domains added yet"}
         </FormUI>
     );
 };
