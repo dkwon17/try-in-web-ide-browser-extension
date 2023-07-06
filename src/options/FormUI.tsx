@@ -15,6 +15,7 @@ import { Split, SplitItem } from "@patternfly/react-core/layouts/Split";
 import { Form, FormGroup } from "@patternfly/react-core/components/Form";
 import { TextInput } from "@patternfly/react-core/components/TextInput";
 import { ExclamationCircleIcon } from "@patternfly/react-icons/dist/js/icons/exclamation-circle-icon";
+import { Alert, AlertActionCloseButton, AlertActionLink, AlertGroup } from '@patternfly/react-core';
 
 interface Props {
     onAdd: (str: string) => Promise<boolean>;
@@ -23,10 +24,12 @@ interface Props {
     textInputPlaceholder: string;
 }
 
-export const FormUI = (props: PropsWithChildren<Props>) => {
+export const FormUI = (props: Props) => {
     const [newUrl, setNewUrl] = useState<string>("");
+    const [displayAlert, setDisplayAlert] = useState<boolean>(false);
+    const [alertMessage, setAlertMessage] = useState<string>("");
 
-    type validate = "success" | "error" | "default";
+    type validate = "error" | "default";
     const [newUrlStatus, setNewUrlStatus] =
         useState<validate>("default");
 
@@ -35,12 +38,10 @@ export const FormUI = (props: PropsWithChildren<Props>) => {
         _event: React.FormEvent<HTMLInputElement>
     ) => {
         setNewUrl(newUrl);
-        if (newUrl === "") {
-            setNewUrlStatus("default");
-        } else if (isUrl(newUrl)) {
-            setNewUrlStatus("success");
-        } else {
+        if (!isUrl(newUrl)) {
             setNewUrlStatus("error");
+        } else {
+            setNewUrlStatus("default");
         }
     };
 
@@ -52,6 +53,30 @@ export const FormUI = (props: PropsWithChildren<Props>) => {
         }
         return true;
     };
+
+    const addBtnClicked = async () => {
+        try {
+            const success = await props.onAdd(newUrl);
+            if (success) {
+                setNewUrl("");
+                setNewUrlStatus("default");
+                closeErrorMessage();
+                return;
+            }
+        } catch (e) {
+            displayErrorMessage(e.message);
+        }
+    }
+
+    const displayErrorMessage = (message: string) => {
+        setAlertMessage(message);
+        setDisplayAlert(true);
+    }
+
+    const closeErrorMessage = () => {
+        setAlertMessage("");
+        setDisplayAlert(false);
+    }
 
     const helperTextInvalid = (
         <Split className="pf-u-mt-xs">
@@ -69,9 +94,21 @@ export const FormUI = (props: PropsWithChildren<Props>) => {
         </Split>
     );
 
+    const errorAlert = displayAlert && alertMessage && (
+        <Alert
+            isInline
+            variant="danger"
+            title={ alertMessage }
+            actionClose={
+                <AlertActionCloseButton
+                    onClose={closeErrorMessage}
+                />
+            }
+        />
+    );
+
     return (
         <Fragment>
-            {props.children}
             <Divider className="pf-u-mt-md pf-u-mb-md" />
             <Split>
                 <SplitItem className="form-text-input">
@@ -96,14 +133,7 @@ export const FormUI = (props: PropsWithChildren<Props>) => {
                 <SplitItem>
                     <Button
                         variant="primary"
-                        onClick={() => {
-                            props.onAdd(newUrl).then((success) => {
-                                if (success) {
-                                    setNewUrl("");
-                                    setNewUrlStatus("default");
-                                }
-                            });
-                        }}
+                        onClick={addBtnClicked}
                         isDisabled={
                             newUrl.length === 0 ||
                             newUrlStatus === "error"
@@ -113,6 +143,7 @@ export const FormUI = (props: PropsWithChildren<Props>) => {
                     </Button>
                 </SplitItem>
             </Split>
+            {errorAlert}
         </Fragment>
     );
 };

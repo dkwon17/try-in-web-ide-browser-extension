@@ -1,9 +1,11 @@
-.pf-c-tab-content__body  {
-
+.pf-c-tab-content__body {
     --pf-c-tab-content__body--PaddingTop: var(--pf-global--spacer--md);
     --pf-c-tab-content__body--PaddingRight: var(--pf-global--spacer--xl);
     --pf-c-tab-content__body--PaddingLeft: var(--pf-global--spacer--xl);
     --pf-c-tab-content__body--PaddingBottom: var(--pf-global--spacer--xl);
+}
+
+.pf-c-card {
     height: 100%;
 }
 

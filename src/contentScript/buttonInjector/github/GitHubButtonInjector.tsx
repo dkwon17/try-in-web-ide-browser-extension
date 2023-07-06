@@ -12,6 +12,7 @@ import {
 import { ButtonInjector } from "../ButtonInjector";
 import { getProjectURL } from "../util";
 import { Button } from "./Button";
+import { left } from '@popperjs/core';
 
 export class GitHubButtonInjector implements ButtonInjector {
     private static BUTTON_ID = "try-in-web-ide-btn";
@@ -46,8 +47,7 @@ export class GitHubButtonInjector implements ButtonInjector {
 
     public async inject() {
         console.log('Start inject!!!!')
-        const currBtn = document.getElementById(GitHubButtonInjector.BUTTON_ID);
-        if (currBtn) {
+        if (document.getElementById(GitHubButtonInjector.BUTTON_ID)) {
             return;
         }
 
@@ -57,6 +57,11 @@ export class GitHubButtonInjector implements ButtonInjector {
         rootElement.id = GitHubButtonInjector.BUTTON_ID;
         this.root = ReactDOM.createRoot(rootElement);
         this.root.render(<Button endpoints={endpoints} projectURL={projectURL} />);
+
+        if (document.getElementById(GitHubButtonInjector.BUTTON_ID)) {
+            return;
+        }
+
         ghElement.appendChild(rootElement);
         console.log('End inject!!!!')
     }

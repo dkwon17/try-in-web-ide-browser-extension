@@ -37,12 +37,8 @@ export const DevSpacesEndpoints = () => {
             active: false,
             readonly: false,
         });
-        try {
-            await saveEndpoints(newEndpoints);
-            await updateEndpoints();
-        } catch (err) {
-            return false;
-        }
+        await saveEndpoints(newEndpoints);
+        await updateEndpoints();
         return true;
     };
 
@@ -70,14 +66,15 @@ export const DevSpacesEndpoints = () => {
     );
 
     return (
-        <FormUI onAdd={addNewEndpoint}
+        <Fragment>
+            {list || "No endpoints added yet"}
+            <FormUI onAdd={addNewEndpoint}
         textInputInvalidText={["Provide the URL of your Dev Spaces installation, e.g.,",
         <br/>,
         "https://devspaces.mycluster.mycorp.com"]}
         textInputAriaLabel="new endpoint"
         textInputPlaceholder="Add endpoint"
-        >
-            {list || "No endpoints added yet"}
-        </FormUI>
+        />
+        </Fragment>
     );
 };

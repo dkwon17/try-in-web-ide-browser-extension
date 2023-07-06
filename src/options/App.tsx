@@ -21,14 +21,14 @@ import {
     TabContentBody,
     TabTitleText,
 } from "@patternfly/react-core";
-import "./styles/App.css";
 import { GitDomains } from './GitDomains';
 import { DevSpacesEndpoints } from './DevSpacesEndpoints';
+import "./styles/App.css";
 
 export const App = () => {
     const [activeTabKey, setActiveTabKey] = useState(0);
 
-    const handleTabClick = (event, tabIndex) => {
+    const handleTabClick = (_, tabIndex) => {
         setActiveTabKey(tabIndex);
     };
 

@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import "@patternfly/react-core/dist/styles/base.css";
 import "@patternfly/patternfly/utilities/Spacing/spacing.css";
@@ -21,7 +21,7 @@ export const GitDomains = () => {
     const [domains, setDomains] = useState<string[]>([]);
 
     useEffect(() => {
-        alert('mount!')
+        // alert('mount!')
         console.log('MOUNT!')
         updateDomains()
         .then(checkPermissionsOnMount)
@@ -70,7 +70,7 @@ export const GitDomains = () => {
         const granted = await promptPermissions(sanitizedDomain);
 
         if (!granted) {
-            return false;
+            throw new Error(`Host permissions for ${newDomain} not granted`);
         }
 
         const newDomains = [...domains, sanitizedDomain];
@@ -117,12 +117,13 @@ export const GitDomains = () => {
     );
 
     return (
-        <FormUI onAdd={addNewDomain}
-        textInputInvalidText={["Provide the URL of your GitHub Enterprise instance, e.g.,", <br/> ,"https://github.my-company.com"]}
-        textInputAriaLabel="add github enterprise domain"
-        textInputPlaceholder="Add GitHub Enterprise domain"
-        > 
+        <Fragment>
             {list || "No GitHub Enterprise domains added yet"}
-        </FormUI>
+            <FormUI onAdd={addNewDomain}
+            textInputInvalidText={["Provide the URL of your GitHub Enterprise instance, e.g.,", <br/> ,"https://github.my-company.com"]}
+            textInputAriaLabel="add github enterprise domain"
+            textInputPlaceholder="Add GitHub Enterprise domain"
+            />
+        </Fragment>
     );
 };
