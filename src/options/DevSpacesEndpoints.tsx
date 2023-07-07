@@ -5,10 +5,6 @@
 
 import { Fragment, useEffect, useState } from "react";
 
-import "@patternfly/react-core/dist/styles/base.css";
-import "@patternfly/patternfly/utilities/Spacing/spacing.css";
-import "@patternfly/patternfly/utilities/Float/float.css";
-
 import {
     Endpoint,
     getEndpoints,

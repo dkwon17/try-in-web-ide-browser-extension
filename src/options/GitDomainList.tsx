@@ -4,7 +4,6 @@
  *-----------------------------------------------------------------------------------------------*/
 
 import { Split, SplitItem } from "@patternfly/react-core/layouts/Split";
-import { Label } from "@patternfly/react-core/components/Label";
 import {
     SimpleList,
     SimpleListItem,

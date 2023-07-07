@@ -50,13 +50,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                 files: ["contentScript.bundle.js"]
             })
         })
-        .then((result) => {
+        .then((_) => {
             // The delay time is needed in the case where
             // executeContentScript is executed multiple times in a short
             // period of time.
             
-            // Delay time ensures executions of contentScript.bundle.js
-            // stay separate.
+            // Delay time ensures executions of contentScript.bundle.js, which is asynchronous,
+            // dont overlap.
             
             // The contentScript.bundle.js script runs an async function,
             // and chrome.scripting.executeScript can resolve before the async

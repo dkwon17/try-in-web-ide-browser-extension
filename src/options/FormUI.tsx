@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
-import { Fragment, PropsWithChildren, ReactNode, useEffect, useState } from "react";
+import { Fragment, ReactNode, useState } from "react";
 
 import "@patternfly/react-core/dist/styles/base.css";
 import "@patternfly/patternfly/utilities/Spacing/spacing.css";
@@ -15,7 +15,7 @@ import { Split, SplitItem } from "@patternfly/react-core/layouts/Split";
 import { Form, FormGroup } from "@patternfly/react-core/components/Form";
 import { TextInput } from "@patternfly/react-core/components/TextInput";
 import { ExclamationCircleIcon } from "@patternfly/react-icons/dist/js/icons/exclamation-circle-icon";
-import { Alert, AlertActionCloseButton, AlertActionLink, AlertGroup } from '@patternfly/react-core';
+import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
 
 interface Props {
     onAdd: (str: string) => Promise<boolean>;
