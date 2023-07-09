@@ -11,8 +11,8 @@ import {
     saveEndpoints,
 } from "../preferences/preferences";
 import { EndpointsList } from "./EndpointsList";
-import { sanitizeUrl } from './util';
-import { FormUI } from './FormUI';
+import { sanitizeUrl } from "./util";
+import { FormUI } from "./FormUI";
 
 export const DevSpacesEndpoints = () => {
     const [endpoints, setEndpoints] = useState<Endpoint[]>([]);
@@ -64,13 +64,15 @@ export const DevSpacesEndpoints = () => {
     return (
         <Fragment>
             {list || "No endpoints added yet"}
-            <FormUI onAdd={addNewEndpoint}
-        textInputInvalidText={["Provide the URL of your Dev Spaces installation, e.g.,",
-        <br/>,
-        "https://devspaces.mycluster.mycorp.com"]}
-        textInputAriaLabel="new endpoint"
-        textInputPlaceholder="Add endpoint"
-        />
+            <FormUI
+                onAdd={addNewEndpoint}
+                textInputInvalidText={
+                    "Provide the URL of your Dev Spaces installation, e.g.,\nhttps://devspaces.mycluster.example.com"
+                }
+                textInputAriaLabel="new endpoint"
+                textInputPlaceholder="Add endpoint"
+                addBtnAriaLabel="add endpoint"
+            />
         </Fragment>
     );
 };

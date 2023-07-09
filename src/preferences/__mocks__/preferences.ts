@@ -6,6 +6,7 @@
 import { Endpoint } from '../preferences';
 
 let endpoints: Endpoint[] = []
+let gitDomains: string[] = []
 
 module.exports = {
     ...(jest.requireActual('../preferences')),
@@ -14,5 +15,11 @@ module.exports = {
     }),
     setEndpoints(_endpoints: Endpoint[]) {
         endpoints = _endpoints;
+    },
+    getGitDomains: jest.fn(async () => {
+        return gitDomains;
+    }),
+    setGitDomains(_gitDomains: string[]) {
+        gitDomains = _gitDomains;
     }
 }

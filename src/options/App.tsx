@@ -70,6 +70,7 @@ export const App = () => {
                     id={`tabContent${0}`}
                     activeKey={activeTabKey}
                     hidden={0 !== activeTabKey}
+                    data-testid='dev-spaces-endpoints-tab'
                 >
                     <TabContentBody>
                         <DevSpacesEndpoints/>
@@ -81,6 +82,7 @@ export const App = () => {
                     id={`tabContent${1}`}
                     activeKey={activeTabKey}
                     hidden={1 !== activeTabKey}
+                    data-testid='git-domains-tab'
                 >
                     <TabContentBody>
                       <GitDomains/>

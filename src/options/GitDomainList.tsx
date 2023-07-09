@@ -10,7 +10,7 @@ import {
 } from "@patternfly/react-core/components/SimpleList";
 import { TrashIcon } from "@patternfly/react-icons/dist/js/icons/trash-icon";
 import { Truncate } from "@patternfly/react-core/components/Truncate";
-
+import { Button } from "@patternfly/react-core/components/Button";
 
 interface Props {
     domains: string[];
@@ -31,12 +31,22 @@ export const GitDomainList = (props: Props) => {
                     </SplitItem>
                     <SplitItem isFilled />
                     <SplitItem>
-                        <TrashIcon onClick={() => props.onClickDelete(domain)}/>
+                        <Button
+                            className="pf-u-p-0"
+                            variant="link"
+                            isDanger
+                            onClick={() => props.onClickDelete(domain)}
+                            aria-label={
+                                "Remove GitHub Enterprise domain " + domain
+                            }
+                        >
+                            <TrashIcon />
+                        </Button>
                     </SplitItem>
                 </Split>
             </SimpleListItem>
         );
     });
 
-    return <SimpleList data-testid="gitdomains-list">{listItems}</SimpleList>;
+    return <SimpleList data-testid="git-domains-list">{listItems}</SimpleList>;
 };

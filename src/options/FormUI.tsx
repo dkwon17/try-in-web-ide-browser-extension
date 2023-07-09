@@ -19,9 +19,10 @@ import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
 
 interface Props {
     onAdd: (str: string) => Promise<boolean>;
-    textInputInvalidText: ReactNode[];
+    textInputInvalidText: string;
     textInputAriaLabel: string;
     textInputPlaceholder: string;
+    addBtnAriaLabel: string;
 }
 
 export const FormUI = (props: Props) => {
@@ -46,9 +47,14 @@ export const FormUI = (props: Props) => {
     };
 
     const isUrl = (str: string) => {
+        let url;
         try {
-            new URL(str);
+            url = new URL(str);
         } catch {
+            return false;
+        }
+
+        if (url.protocol !== "http:" && url.protocol !== "https:") {
             return false;
         }
         return true;
@@ -87,7 +93,7 @@ export const FormUI = (props: Props) => {
                 />
             </SplitItem>
             <SplitItem>
-                <div className="pf-c-form__helper-text pf-m-error">
+                <div className="pf-c-form__helper-text pf-m-error new-line">
                     {props.textInputInvalidText}
                 </div>
             </SplitItem>
@@ -134,6 +140,7 @@ export const FormUI = (props: Props) => {
                     <Button
                         variant="primary"
                         onClick={addBtnClicked}
+                        aria-label={props.addBtnAriaLabel}
                         isDisabled={
                             newUrl.length === 0 ||
                             newUrlStatus === "error"

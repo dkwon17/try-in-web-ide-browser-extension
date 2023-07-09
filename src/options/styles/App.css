@@ -59,3 +59,7 @@
 #root {
     height: 100%;
 }
+
+.new-line {
+    white-space: pre;
+}

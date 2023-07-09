@@ -7,7 +7,7 @@
     }
   },
   "optional_permissions": ["scripting"],
-  "optional_host_permissions": ["https://*/*"],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
   "background": {
     "service_worker": "backgroundScript.bundle.js"
   },
