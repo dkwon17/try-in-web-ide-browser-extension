@@ -46,7 +46,6 @@ export class GitHubButtonInjector implements ButtonInjector {
     }
 
     public async inject() {
-        console.log('Start inject!!!!')
         if (document.getElementById(GitHubButtonInjector.BUTTON_ID)) {
             return;
         }
@@ -63,7 +62,6 @@ export class GitHubButtonInjector implements ButtonInjector {
         }
 
         ghElement.appendChild(rootElement);
-        console.log('End inject!!!!')
     }
 
     private async prepare(): Promise<{
