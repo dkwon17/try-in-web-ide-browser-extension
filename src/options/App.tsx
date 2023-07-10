@@ -9,9 +9,7 @@ import "@patternfly/react-core/dist/styles/base.css";
 import "@patternfly/patternfly/utilities/Spacing/spacing.css";
 import "@patternfly/patternfly/utilities/Float/float.css";
 
-import {
-    Card,
-} from "@patternfly/react-core/components/Card";
+import { Card } from "@patternfly/react-core/components/Card";
 import {
     PageSection,
     PageSectionVariants,
@@ -21,8 +19,8 @@ import {
     TabContentBody,
     TabTitleText,
 } from "@patternfly/react-core";
-import { GitDomains } from './GitDomains';
-import { DevSpacesEndpoints } from './DevSpacesEndpoints';
+import { GitDomains } from "./GitDomains";
+import { DevSpacesEndpoints } from "./DevSpacesEndpoints";
 import "./styles/App.css";
 
 export const App = () => {
@@ -70,10 +68,10 @@ export const App = () => {
                     id={`tabContent${0}`}
                     activeKey={activeTabKey}
                     hidden={0 !== activeTabKey}
-                    data-testid='dev-spaces-endpoints-tab'
+                    data-testid="dev-spaces-endpoints-tab"
                 >
                     <TabContentBody>
-                        <DevSpacesEndpoints/>
+                        <DevSpacesEndpoints />
                     </TabContentBody>
                 </TabContent>
                 <TabContent
@@ -82,10 +80,10 @@ export const App = () => {
                     id={`tabContent${1}`}
                     activeKey={activeTabKey}
                     hidden={1 !== activeTabKey}
-                    data-testid='git-domains-tab'
+                    data-testid="git-domains-tab"
                 >
                     <TabContentBody>
-                      <GitDomains/>
+                        <GitDomains />
                     </TabContentBody>
                 </TabContent>
             </PageSection>

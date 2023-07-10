@@ -28,7 +28,6 @@ module.exports = (env) => {
             filename: "[name].bundle.js",
             clean: true,
             path: path.resolve(__dirname, ...TARGET_FOLDER),
-            publicPath: "/",
         },
         plugins: [copyManifestToDist(isProduction), copyIconsToDist()],
         module: {
@@ -83,16 +82,10 @@ function copyManifestToDist(isProduction) {
 
             // optional_host_permissions should be merged into optional_permissions
             manifest.optional_permissions = manifest.optional_permissions.concat(manifest.optional_host_permissions);
-            // delete manifest["optional_host_permissions"];
         } else {
             // for Chromium based browsers browser_specific_settings is not supported
             delete manifest["browser_specific_settings"];
         }
-
-        // For production, reference the generated content script css created by MiniCssExtractPlugin
-        // if (isProduction) {
-        //     manifest.content_scripts[0]["css"] = ["contentScript.css"];
-        // }
 
         return JSON.stringify(
             {

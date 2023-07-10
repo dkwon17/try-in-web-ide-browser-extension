@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
-import { Fragment, ReactNode, useState } from "react";
+import { Fragment, useState } from "react";
 
 import "@patternfly/react-core/dist/styles/base.css";
 import "@patternfly/patternfly/utilities/Spacing/spacing.css";
@@ -15,7 +15,7 @@ import { Split, SplitItem } from "@patternfly/react-core/layouts/Split";
 import { Form, FormGroup } from "@patternfly/react-core/components/Form";
 import { TextInput } from "@patternfly/react-core/components/TextInput";
 import { ExclamationCircleIcon } from "@patternfly/react-icons/dist/js/icons/exclamation-circle-icon";
-import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
+import { Alert, AlertActionCloseButton } from "@patternfly/react-core";
 
 interface Props {
     onAdd: (str: string) => Promise<boolean>;
@@ -31,8 +31,7 @@ export const FormUI = (props: Props) => {
     const [alertMessage, setAlertMessage] = useState<string>("");
 
     type validate = "error" | "default";
-    const [newUrlStatus, setNewUrlStatus] =
-        useState<validate>("default");
+    const [newUrlStatus, setNewUrlStatus] = useState<validate>("default");
 
     const handleNewUrlChange = (
         newUrl: string,
@@ -72,17 +71,17 @@ export const FormUI = (props: Props) => {
         } catch (e) {
             displayErrorMessage(e.message);
         }
-    }
+    };
 
     const displayErrorMessage = (message: string) => {
         setAlertMessage(message);
         setDisplayAlert(true);
-    }
+    };
 
     const closeErrorMessage = () => {
         setAlertMessage("");
         setDisplayAlert(false);
-    }
+    };
 
     const helperTextInvalid = (
         <Split className="pf-u-mt-xs">
@@ -104,12 +103,8 @@ export const FormUI = (props: Props) => {
         <Alert
             isInline
             variant="danger"
-            title={ alertMessage }
-            actionClose={
-                <AlertActionCloseButton
-                    onClose={closeErrorMessage}
-                />
-            }
+            title={alertMessage}
+            actionClose={<AlertActionCloseButton onClose={closeErrorMessage} />}
         />
     );
 
@@ -142,8 +137,7 @@ export const FormUI = (props: Props) => {
                         onClick={addBtnClicked}
                         aria-label={props.addBtnAriaLabel}
                         isDisabled={
-                            newUrl.length === 0 ||
-                            newUrlStatus === "error"
+                            newUrl.length === 0 || newUrlStatus === "error"
                         }
                     >
                         Add

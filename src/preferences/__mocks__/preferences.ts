@@ -3,13 +3,13 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
-import { Endpoint } from '../preferences';
+import { Endpoint } from "../preferences";
 
-let endpoints: Endpoint[] = []
-let gitDomains: string[] = []
+let endpoints: Endpoint[] = [];
+let gitDomains: string[] = [];
 
 module.exports = {
-    ...(jest.requireActual('../preferences')),
+    ...jest.requireActual("../preferences"),
     getEndpoints: jest.fn(async () => {
         return endpoints;
     }),
@@ -21,5 +21,5 @@ module.exports = {
     }),
     setGitDomains(_gitDomains: string[]) {
         gitDomains = _gitDomains;
-    }
-}
+    },
+};

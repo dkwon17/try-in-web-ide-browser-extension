@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
-import { findByTestId, fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import { App } from "../App";
@@ -79,7 +79,9 @@ it("should enable 'Add' button when a valid URL is entered in the input box", as
     const { findByPlaceholderText, findByText } = render(<App />);
     const inputBox = await findByPlaceholderText("Add endpoint");
     const endpointsTab = await screen.findByTestId("dev-spaces-endpoints-tab");
-    const addButton = (await within(endpointsTab).findByText("Add")).closest("button");
+    const addButton = (await within(endpointsTab).findByText("Add")).closest(
+        "button"
+    );
 
     fireEvent.change(inputBox, {
         target: { value: "https://my-che-instance.che" },
@@ -95,7 +97,9 @@ it("should disable 'Add' button when invalid input is entered in the input box",
     const { findByPlaceholderText, findByText } = render(<App />);
     const inputBox = await findByPlaceholderText("Add endpoint");
     const endpointsTab = await screen.findByTestId("dev-spaces-endpoints-tab");
-    const addButton = (await within(endpointsTab).findByText("Add")).closest("button");
+    const addButton = (await within(endpointsTab).findByText("Add")).closest(
+        "button"
+    );
 
     fireEvent.change(inputBox, { target: { value: "    " } });
     expect(addButton.classList.contains("pf-m-disabled")).toBe(true);

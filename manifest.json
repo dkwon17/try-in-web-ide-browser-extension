@@ -8,6 +8,7 @@
   },
   "optional_permissions": ["scripting"],
   "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "host_permissions": ["https://github.com/*"],
   "background": {
     "service_worker": "backgroundScript.bundle.js"
   },

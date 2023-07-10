@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
-import { waitFor } from '@testing-library/react';
 import ReactDOM from "react-dom/client";
 import { GitHubButtonInjector } from "../GitHubButtonInjector";
 

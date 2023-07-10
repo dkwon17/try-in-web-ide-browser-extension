@@ -7,12 +7,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = merge(common('development'), {
   mode: 'development',
   devtool: 'inline-source-map',
-  devServer: {
-    static: {
-        directory: path.join(__dirname, './dist/chromium'),
-    },
-    hot: true,
-},
   module: {
     rules: [
       {
