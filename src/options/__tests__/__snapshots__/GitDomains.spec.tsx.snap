@@ -197,19 +197,29 @@ exports[`renders correctly with multiple domains 1`] = `
                       <div
                         class="pf-l-split__item"
                       >
-                        <svg
-                          aria-hidden="true"
-                          fill="currentColor"
-                          height="1em"
-                          role="img"
-                          style="vertical-align: -0.125em;"
-                          viewBox="0 0 448 512"
-                          width="1em"
+                        <button
+                          aria-disabled="false"
+                          aria-label="Remove GitHub Enterprise domain https://github.example-1.com"
+                          class="pf-c-button pf-m-link pf-m-danger pf-u-p-0"
+                          data-ouia-component-id="OUIA-Generated-Button-link-2"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
                         >
-                          <path
-                            d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"
-                          />
-                        </svg>
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 448 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"
+                            />
+                          </svg>
+                        </button>
                       </div>
                     </div>
                   </a>
@@ -244,19 +254,29 @@ exports[`renders correctly with multiple domains 1`] = `
                       <div
                         class="pf-l-split__item"
                       >
-                        <svg
-                          aria-hidden="true"
-                          fill="currentColor"
-                          height="1em"
-                          role="img"
-                          style="vertical-align: -0.125em;"
-                          viewBox="0 0 448 512"
-                          width="1em"
+                        <button
+                          aria-disabled="false"
+                          aria-label="Remove GitHub Enterprise domain https://github.example-2.com"
+                          class="pf-c-button pf-m-link pf-m-danger pf-u-p-0"
+                          data-ouia-component-id="OUIA-Generated-Button-link-3"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
                         >
-                          <path
-                            d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"
-                          />
-                        </svg>
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 448 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"
+                            />
+                          </svg>
+                        </button>
                       </div>
                     </div>
                   </a>
@@ -291,19 +311,29 @@ exports[`renders correctly with multiple domains 1`] = `
                       <div
                         class="pf-l-split__item"
                       >
-                        <svg
-                          aria-hidden="true"
-                          fill="currentColor"
-                          height="1em"
-                          role="img"
-                          style="vertical-align: -0.125em;"
-                          viewBox="0 0 448 512"
-                          width="1em"
+                        <button
+                          aria-disabled="false"
+                          aria-label="Remove GitHub Enterprise domain https://github.example-3.com"
+                          class="pf-c-button pf-m-link pf-m-danger pf-u-p-0"
+                          data-ouia-component-id="OUIA-Generated-Button-link-4"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
                         >
-                          <path
-                            d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"
-                          />
-                        </svg>
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 448 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"
+                            />
+                          </svg>
+                        </button>
                       </div>
                     </div>
                   </a>
@@ -569,19 +599,29 @@ exports[`renders correctly with one domain 1`] = `
                       <div
                         class="pf-l-split__item"
                       >
-                        <svg
-                          aria-hidden="true"
-                          fill="currentColor"
-                          height="1em"
-                          role="img"
-                          style="vertical-align: -0.125em;"
-                          viewBox="0 0 448 512"
-                          width="1em"
+                        <button
+                          aria-disabled="false"
+                          aria-label="Remove GitHub Enterprise domain https://github.example.com"
+                          class="pf-c-button pf-m-link pf-m-danger pf-u-p-0"
+                          data-ouia-component-id="OUIA-Generated-Button-link-1"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
                         >
-                          <path
-                            d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"
-                          />
-                        </svg>
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 448 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"
+                            />
+                          </svg>
+                        </button>
                       </div>
                     </div>
                   </a>

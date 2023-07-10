@@ -7,10 +7,21 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import { App } from "../App";
+import { chrome } from "jest-chrome";
 
 const preferencesMock = require("../../preferences/preferences");
 
 jest.mock("../../preferences/preferences");
+
+beforeEach(() => {
+    chrome.permissions.contains.mockImplementation(async () => {
+        return true;
+    });
+});
+
+afterEach(() => {
+    jest.clearAllMocks();
+});
 
 it("renders correctly with one domain", async () => {
     preferencesMock.setGitDomains(["https://github.example.com"]);
@@ -147,7 +158,7 @@ it("should remove host permission when git domain is removed", async () => {
 
     const { findByLabelText } = render(<App />);
     const deleteButton = await findByLabelText(
-        "Delete GitHub Enterprise domain https://github.example.com"
+        "Remove GitHub Enterprise domain https://github.example.com"
     );
     fireEvent.click(deleteButton);
 
