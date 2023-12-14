@@ -85,19 +85,22 @@ describe("Inject button on GitHub project repo page", () => {
         preferencesMock.reset();
     });
 
-    it("should inject react element", async () => {
+    it("should inject react element using FileNavigationStrategy", async () => {
         preferencesMock.setEndpoints([
             { url: "https://url-1.com", active: true, readonly: true },
         ]);
 
-        const mockDiv = {
-            appendChild: jest.fn(),
-        };
+        const fileNavigationDiv = document.createElement('div');
+        const summary = document.createElement('summary');
+        summary.innerText = 'Code';
+        fileNavigationDiv.appendChild(summary);
+
+        const appendChildMock = jest.spyOn(fileNavigationDiv, "appendChild")
 
         jest.spyOn(document, "querySelector").mockImplementation(
             (query: string) => {
                 if (query === ".file-navigation") {
-                    return mockDiv as any;
+                    return fileNavigationDiv as any;
                 }
             }
         );
@@ -117,6 +120,42 @@ describe("Inject button on GitHub project repo page", () => {
 
         expect(createRootSpy).toBeCalledTimes(1);
         expect(mockRoot.render).toBeCalledTimes(1);
-        expect(mockDiv.appendChild).toBeCalledTimes(1);
+        expect(appendChildMock).toBeCalledTimes(1);
+    });
+
+    it("should inject react element using ButtonStrategy", async () => {
+        preferencesMock.setEndpoints([
+            { url: "https://url-1.com", active: true, readonly: true },
+        ]);
+
+        const parentDiv = document.createElement('div');
+        const button = document.createElement('button');
+        button.innerText = 'Code';
+        parentDiv.appendChild(button);
+
+        const appendChildMock = jest.spyOn(parentDiv, "appendChild")
+
+        jest.spyOn(document, "getElementsByTagName").mockImplementation(
+            (qualifiedName: string) => {
+                return parentDiv.getElementsByTagName(qualifiedName);
+            }
+        );
+
+        const mockRoot = {
+            render: jest.fn(),
+        };
+
+        const createRootSpy = jest
+            .spyOn(ReactDOM, "createRoot")
+            .mockImplementation((_: any) => {
+                return mockRoot as any;
+            });
+        
+        const endpoints = await getEndpoints();
+        await githubService.inject(endpoints);
+
+        expect(createRootSpy).toBeCalledTimes(1);
+        expect(mockRoot.render).toBeCalledTimes(1);
+        expect(appendChildMock).toBeCalledTimes(1);
     });
 });
